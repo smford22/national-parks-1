@@ -8,8 +8,9 @@ services:
   national-parks:
     image: echohack/national-parks
     ports:
-      - 8081:8080
+      - 8080:8080
       - 9631:9631
+      - 9638:9638
     links:
       - mongodb
     depends_on:

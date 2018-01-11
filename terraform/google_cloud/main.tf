@@ -1,3 +1,7 @@
+terraform {
+  required_version = "> 0.11.0"
+}
+
 provider "google" {
   credentials = "${file("${var.gcp_credentials_file}")}"
   project     = "${var.gcp_project}"
@@ -229,7 +233,7 @@ resource "google_compute_instance" "national-parks" {
 // Templates
 
 data "template_file" "initial_peer" {
-  template = "${file("${path.module}/templates/hab-sup.service")}"
+  template = "${file("${path.module}/../templates/hab-sup.service")}"
 
   vars {
     flags = "--auto-update --listen-gossip 0.0.0.0:9638 --listen-http 0.0.0.0:9631 --permanent-peer"
@@ -237,7 +241,7 @@ data "template_file" "initial_peer" {
 }
 
 data "template_file" "sup_service" {
-  template = "${file("${path.module}/templates/hab-sup.service")}"
+  template = "${file("${path.module}/../templates/hab-sup.service")}"
 
   vars {
     flags = "--auto-update --peer ${google_compute_instance.initial-peer.network_interface.0.address} --listen-gossip 0.0.0.0:9638 --listen-http 0.0.0.0:9631"
@@ -245,5 +249,5 @@ data "template_file" "sup_service" {
 }
 
 data "template_file" "install_hab" {
-  template = "${file("${path.module}/templates/install-hab.sh")}"
+  template = "${file("${path.module}/../templates/install-hab.sh")}"
 }
